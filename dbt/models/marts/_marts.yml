@@ -1,0 +1,58 @@
+version: 2
+
+models:
+  - name: dim_date
+    columns:
+      - name: date_day
+        data_tests: [unique, not_null]
+
+  - name: dim_cedent
+    columns:
+      - name: cedent_id
+        data_tests: [unique, not_null]
+
+  - name: dim_line_of_business
+    columns:
+      - name: line_of_business
+        data_tests: [unique, not_null]
+
+  - name: dim_treaty
+    description: SCD Type 2 treaty dimension built from the snap_treaties snapshot.
+    columns:
+      - name: treaty_version_key
+        data_tests: [unique, not_null]
+      - name: cedent_id
+        data_tests:
+          - relationships:
+              to: ref('dim_cedent')
+              field: cedent_id
+
+  - name: fact_claim
+    description: One row per claim, amounts converted to USD.
+    columns:
+      - name: claim_id
+        data_tests: [unique, not_null]
+      - name: treaty_id
+        data_tests:
+          - relationships:
+              to: ref('stg_treaties')
+              field: treaty_id
+              config:
+                where: "treaty_known"
+      - name: loss_date
+        data_tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date_day
+
+  - name: fact_quote
+    columns:
+      - name: quote_id
+        data_tests: [unique, not_null]
+
+  - name: mart_treaty_loss_ratio
+    columns:
+      - name: treaty_id
+        data_tests: [unique, not_null]
+
+  - name: mart_quote_hit_ratio

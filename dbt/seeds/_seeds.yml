@@ -1,0 +1,11 @@
+version: 2
+seeds:
+  - name: fx_rates
+    description: Static illustrative FX rates to USD. A real pipeline would load daily rates.
+    columns:
+      - name: currency
+        data_tests: [unique, not_null]
+  - name: lines_of_business
+    columns:
+      - name: line_of_business
+        data_tests: [unique, not_null]

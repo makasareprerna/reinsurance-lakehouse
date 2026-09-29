@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: stg_cedents
+    columns:
+      - name: cedent_id
+        data_tests: [unique, not_null]
+  - name: stg_quotes
+    columns:
+      - name: quote_id
+        data_tests: [unique, not_null]
+      - name: quote_status
+        data_tests:
+          - accepted_values:
+              values: ['QUOTED', 'BOUND', 'DECLINED']
+  - name: stg_treaties
+    columns:
+      - name: treaty_id
+        data_tests: [unique, not_null]
+      - name: treaty_type
+        data_tests:
+          - accepted_values:
+              values: ['QUOTA_SHARE', 'EXCESS_OF_LOSS', 'SURPLUS']
+  - name: stg_claims
+    columns:
+      - name: claim_id
+        data_tests: [unique, not_null]
+      - name: claim_status
+        data_tests:
+          - accepted_values:
+              values: ['OPEN', 'CLOSED']

@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: silver
+    description: >
+      Current-state silver tables written by the PySpark pipeline, exported as
+      Parquet. dbt reads them in place through DuckDB; nothing is copied.
+    meta:
+      external_location: "../data/exports/silver/{name}/*.parquet"  # relative to this dbt folder
+    tables:
+      - name: cedents
+      - name: quotes
+      - name: treaties
+      - name: claims

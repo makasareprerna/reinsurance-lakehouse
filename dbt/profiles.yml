@@ -1,0 +1,8 @@
+# Run dbt from this folder with:  dbt build --profiles-dir .
+relake:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('RELAKE_DUCKDB_PATH', '../data/warehouse.duckdb') }}"
+      threads: 4
