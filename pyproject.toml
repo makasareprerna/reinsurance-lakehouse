@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "relake"
+version = "0.1.0"
+description = "Reinsurance treaty, quote and claims lakehouse: PySpark + Delta Lake + dbt"
+requires-python = ">=3.10"
+
+[project.scripts]
+relake = "relake.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "B"]
+ignore = ["E501"]  # long lines are allowed; readability first

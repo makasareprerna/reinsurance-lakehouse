@@ -1,0 +1,23 @@
+# Pipeline configuration. Paths are relative to the repo root.
+seed: 42                  # makes the synthetic data reproducible
+start_date: "2026-01-01"  # first business day the simulator generates
+scale: 1.0                # 1.0 = roughly 500-900 rows per day; raise for bigger runs
+
+paths:
+  landing: data/landing          # where "source systems" drop files
+  bronze: data/bronze            # raw Delta tables, append-only
+  silver: data/silver            # cleaned, deduplicated, latest version per key
+  quarantine: data/quarantine    # rows that failed an error-level quality rule
+  control: data/control          # file log and run log
+  exports: data/exports/silver   # Parquet snapshot of silver, read by dbt
+
+quality:
+  # If more than this share of a batch fails error-level rules, the run stops
+  # before touching silver (bad rows are still written to quarantine to investigate).
+  max_error_rate: 0.05
+  # ...but only once at least this many rows are bad, so a 4-row batch with
+  # one bad row (25%) does not stop everything.
+  min_bad_rows_to_halt: 5
+
+# Processing order matters: claims are checked against treaties that already exist.
+entities: [cedents, treaties, quotes, claims]

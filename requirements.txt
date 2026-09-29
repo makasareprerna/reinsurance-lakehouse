@@ -1,0 +1,4 @@
+pyspark==3.5.3
+delta-spark==3.2.1
+dbt-duckdb>=1.9,<1.10
+pyyaml>=6.0

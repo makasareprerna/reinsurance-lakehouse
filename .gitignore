@@ -1,0 +1,24 @@
+# generated data - never commit
+data/
+spark-warehouse/
+metastore_db/
+derby.log
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+*.duckdb
+*.duckdb.wal
+
+# python
+__pycache__/
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# editors / os
+.vscode/
+.idea/
+.DS_Store
+.env
