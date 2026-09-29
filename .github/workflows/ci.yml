@@ -1,0 +1,37 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test-and-run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - uses: actions/setup-java@v4   # Spark runs on the JVM
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install
+        run: pip install -e . -r requirements-dev.txt
+
+      - name: Lint
+        run: ruff check src tests
+
+      - name: Unit and end-to-end tests
+        run: pytest
+
+      - name: Run the pipeline for 5 days with dbt after each day
+        run: relake simulate --days 5 --scale 0.3 --with-dbt
+
+      - name: Show results
+        run: relake status
